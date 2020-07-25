@@ -1,4 +1,4 @@
-panel.plugin("medienbaecker/likes", {
+panel.plugin("kommutron/flags", {
 	fields: {
 		likes: {
 			props: {
@@ -7,7 +7,7 @@ panel.plugin("medienbaecker/likes", {
 				likeCount: String
 			},
 			template: `
-			<k-field class="k-likes-field" disabled="true" :label="label" :help="help">
+			<k-field class="k-flags-field" disabled="true" :label="label" :help="help">
 				<k-input icon="heart" theme="field" type="text" name="textfield" :value="likeCount">
 			</k-field>
 			`
