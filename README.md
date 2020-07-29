@@ -4,7 +4,7 @@ Kirby Flags adds page methods and a panel field for multiple types of flags.
 
 Forked from medienbaecker/kirby-likes for the core design and functionality.
 
-Still includes 'like' ❤️ but also adds 'strike' ⛔, 'bell' 🔔 and 'photo' 📷.
+Still includes 'like' ❤️ but also adds 'strike' ⛔, 'bell' 🔔, 'edit' ✍ and 'photo' 📷.
 
 
 
@@ -67,7 +67,7 @@ But to avoid the query strings from being stripped out; the `?` must be replaced
 
 ```php
 
-<a href="{{ page.parent.parent.url() }}/modules/{{ page.slug }}/flag/like/{{ page.parent.parent.uri }}~*~m={{ page.slug }}#{{ page.slug }}">❤️</a>
+<a href="{{ page.parent.parent.url() }}/modules/{{ page.slug }}/flag/edit/{{ page.parent.parent.uri }}~*~m={{ page.slug }}#{{ page.slug }}">✍</a>
 
 
 ```
@@ -77,19 +77,24 @@ But to avoid the query strings from being stripped out; the `?` must be replaced
 ### Display Binary
 
 
+Did the current visitor toggle the flag. Does not read login, only uses a hashed IP address as identifier `md5(kirby->visitor->ip())`.
+
 ```php
 
-didLike()
+didLike();
 
-didStrike()
+didStrike();
 
-didBell()
+didBell();
 
-didPhoto()
+didEdit();
 
+didPhoto();
+
+returns 1 or 0
+    
 ```
 
-returns `true` or `false`
 
 
 
@@ -97,13 +102,15 @@ returns `true` or `false`
 
 ```php
 
-likeCount()
+likeCount();
 
-strikeCount()
+strikeCount();
 
-bellCount()
+editCount();
 
-photoCount()
+bellCount();
+
+photoCount();
 
 ```
 
@@ -139,6 +146,9 @@ fields:
   strikes:
     label: Strikes
     type: strikes
+  edits:
+    label: Edits
+    type: edits
   bells:
     label: Bells
     type: bells
@@ -146,6 +156,8 @@ fields:
     label: Photos
     type: photos
 ```
+
+Individual flags cannot be removed but each count can be reset to zero.
 
 
 

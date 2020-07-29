@@ -1,7 +1,7 @@
 <?php
 
 function flag($page, $action, $redirect) {
-	$actions = ['like','strike','bell','photo'];
+	$actions = ['like','strike','bell','edit','photo'];
 	$smartredirect = str_replace('~*~', '?', $redirect);
 	if(page($page) && in_array($action, $actions)) {
 		kirby()->impersonate('kirby');
@@ -43,6 +43,19 @@ function flag($page, $action, $redirect) {
 			else {
 				if(strpos($page->bells(), $visitor) === false) {
 					$page->update(['bells' => $page->bells()->value() . $visitor . ';']);
+				}
+			}
+			go($smartredirect, $code = 307);
+		}
+		elseif($action == 'edit') {
+			if(strpos($page->edits(), $visitor) !== false) {
+				if(strpos($page->edits(), $visitor) !== false) {
+					$page->update(['edits' => str_replace($visitor . ';', '', $page->edits()->value())]);
+				}
+			}
+			else {
+				if(strpos($page->edits(), $visitor) === false) {
+					$page->update(['edits' => $page->edits()->value() . $visitor . ';']);
 				}
 			}
 			go($smartredirect, $code = 307);
@@ -92,6 +105,13 @@ Kirby::plugin('commutron/flags', [
 				}
 			]
 		],
+		'edits' => [
+			'computed' => [
+				'editCount' => function () {
+					return $this->model()->editCount();
+				}
+			]
+		],
 		'photos' => [
 			'computed' => [
 				'photoCount' => function () {
@@ -120,6 +140,7 @@ Kirby::plugin('commutron/flags', [
 		// 	}
 		// ]
 	],
+	
 	'pageMethods' => [
 		'likeCount' => function() {
 			$likes = $this->likes()->split(';');
@@ -128,6 +149,9 @@ Kirby::plugin('commutron/flags', [
 		'didLike' => function() {
 			$likes = $this->likes()->split(';');
 			return in_array(md5('v-' . kirby()->visitor()->ip()), $likes);
+		},
+		'clearLikes' => function() {
+			$this->update(['likes' => '']);
 		},
 		'strikeCount' => function() {
 			$strikes = $this->strikes()->split(';');
@@ -144,6 +168,14 @@ Kirby::plugin('commutron/flags', [
 		'didBell' => function() {
 			$bells = $this->bells()->split(';');
 			return in_array(md5('v-' . kirby()->visitor()->ip()), $bells);
+		},
+		'editCount' => function() {
+			$edits = $this->edits()->split(';');
+			return count($edits);
+		},
+		'didEdit' => function() {
+			$edits = $this->edits()->split(';');
+			return in_array(md5('v-' . kirby()->visitor()->ip()), $edits);
 		},
 		'photoCount' => function() {
 			$photos = $this->photos()->split(';');
