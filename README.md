@@ -4,7 +4,7 @@ Kirby Flags adds page methods and a panel field for multiple types of flags.
 
 Forked from medienbaecker/kirby-likes for the core design and functionality.
 
-Still includes 'like' ❤️ but also adds 'strike' ⛔, 'bell' 🔔, 'edit' ✍ and 'photo' 📷.
+Still includes 'like' ❤️ but also adds 'strike' ⛔, 'bell' 🔔, 'edit' 📝 and 'photo' 📷.
 
 
 
@@ -67,7 +67,7 @@ But to avoid the query strings from being stripped out; the `?` must be replaced
 
 ```php
 
-<a href="{{ page.parent.parent.url() }}/modules/{{ page.slug }}/flag/edit/{{ page.parent.parent.uri }}~*~m={{ page.slug }}#{{ page.slug }}">✍</a>
+<a href="{{ page.parent.parent.url() }}/modules/{{ page.slug }}/flag/edit/{{ page.parent.parent.uri }}~*~m={{ page.slug }}#{{ page.slug }}">📝</a>
 
 
 ```
